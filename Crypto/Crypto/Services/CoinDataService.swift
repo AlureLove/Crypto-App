@@ -25,7 +25,7 @@ class CoinDataService {
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "x-cg-demo-api-key": "CG-aJTTkiv5ucQ8hwXFWQQq1GTX"
+            "x-cg-demo-api-key": "Your API Key"
         ]
         
         let queryItems = [
