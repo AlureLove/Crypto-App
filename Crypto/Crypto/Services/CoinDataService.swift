@@ -25,7 +25,7 @@ class CoinDataService {
         request.timeoutInterval = 10
         request.allHTTPHeaderFields = [
             "accept": "application/json",
-            "x-cg-demo-api-key": "Your API Key"
+            "x-cg-demo-api-key": SecretKeyManager.api_key
         ]
         
         let queryItems = [
@@ -45,31 +45,11 @@ class CoinDataService {
         }
         
         coinSubscription =
-        URLSession.shared.dataTaskPublisher(for: request)
-            .subscribe(on: DispatchQueue.global(qos: .default))
-            .tryMap(handleData)
-            .receive(on: DispatchQueue.main)
+        NetworkingManager.download(url: request)
             .decode(type: [CoinModel].self, decoder: JSONDecoder())
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Failed to fetch data: \(error.localizedDescription)")
-                case .finished:
-                    break
-                }
-            } receiveValue: { [weak self] returnedCoins in
+            .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] returnedCoins in
                 self?.allCoins = returnedCoins
                 self?.coinSubscription?.cancel()
-            }
-        
-    }
-    
-    private func handleData(output: URLSession.DataTaskPublisher.Output) throws -> Data {
-        guard let response = output.response as? HTTPURLResponse,
-              response.statusCode >= 200 && response.statusCode < 300 else {
-            throw URLError(.badServerResponse)
-        }
-        
-        return output.data
+            })
     }
 }
