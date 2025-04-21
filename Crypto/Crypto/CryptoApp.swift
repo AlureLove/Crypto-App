@@ -23,6 +23,7 @@ struct CryptoApp: App {
                 HomeView()
                     .toolbarVisibility(.hidden)
             }
+            .preferredColorScheme(.dark)
             .environmentObject(vm)
         }
     }
