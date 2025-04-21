@@ -17,7 +17,7 @@ class CoinDataService {
         getCoins()
     }
     
-    private func getCoins() {
+    func getCoins() {
         guard let url = URL(string: "https://api.coingecko.com/api/v3/coins/markets") else { return }
         
         var request = URLRequest(url: url)
