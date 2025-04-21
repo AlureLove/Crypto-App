@@ -9,15 +9,15 @@ import SwiftUI
 
 struct DetailView: View {
     
-    let coin: CoinModel
+    @StateObject var vm: DetailViewModel
     
     init(coin: CoinModel) {
-        self.coin = coin
+        _vm = StateObject(wrappedValue: DetailViewModel(coin: coin))
     }
     
     var body: some View {
         ZStack {
-            Text(coin.name)
+            Text("hello")
         }
     }
 }
