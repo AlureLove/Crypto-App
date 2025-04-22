@@ -31,6 +31,7 @@ class NetworkingManager {
             .subscribe(on: DispatchQueue.global(qos: .default))
             .tryMap({ try handleURLResponse(output: $0, url: url)})
             .receive(on: DispatchQueue.main)
+            .retry(3)
             .eraseToAnyPublisher()
     }
     
@@ -39,6 +40,7 @@ class NetworkingManager {
             .subscribe(on: DispatchQueue.global(qos: .default))
             .tryMap({ try handleImageURLResponse(output: $0, url: url)})
             .receive(on: DispatchQueue.main)
+            .retry(3)
             .eraseToAnyPublisher()
     }
     
